@@ -4,6 +4,7 @@
   "description": "A demo project for slicing and composing photo mosaics.",
   "main": "server/server.js",
   "scripts": {
+    "start": "node server/server.js",
     "test": "echo \"Nyan, nyan, nyan~\" && exit 1"
   },
   "repository": {
@@ -19,5 +20,10 @@
   "bugs": {
     "url": "https://github.com/gartenfeld/mosaic/issues"
   },
-  "homepage": "https://github.com/gartenfeld/mosaic#readme"
+  "homepage": "https://github.com/gartenfeld/mosaic#readme",
+  "dependencies": {
+    "express": "^4.13.3",
+    "gm": "^1.20.0",
+    "path": "^0.12.7"
+  }
 }
