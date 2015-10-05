@@ -1,0 +1,23 @@
+{
+  "name": "mosaic",
+  "version": "0.0.1",
+  "description": "A demo project for slicing and composing photo mosaics.",
+  "main": "server/server.js",
+  "scripts": {
+    "test": "echo \"Nyan, nyan, nyan~\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gartenfeld/mosaic.git"
+  },
+  "keywords": [
+    "mosaic",
+    "photo"
+  ],
+  "author": "David Rosson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gartenfeld/mosaic/issues"
+  },
+  "homepage": "https://github.com/gartenfeld/mosaic#readme"
+}
