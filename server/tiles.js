@@ -24,6 +24,8 @@ module.exports = function (req, res) {
         dispatch(tile);
       });
     }
+  } else {
+    res.status(404).end();
   }
 
 };

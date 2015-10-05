@@ -4,8 +4,7 @@
   "description": "A demo project for slicing and composing photo mosaics.",
   "main": "server/server.js",
   "scripts": {
-    "start": "node server/server.js",
-    "test": "echo \"Nyan, nyan, nyan~\" && exit 1"
+    "start": "node server/server.js"
   },
   "repository": {
     "type": "git",
