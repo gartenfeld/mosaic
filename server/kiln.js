@@ -1,5 +1,5 @@
 var settings = require('../client/js/settings');
-var Magick = require('gm');
+var Magick = require('gm').subClass({ imageMagick: true });
 
 module.exports = function(hex, callback) {
 

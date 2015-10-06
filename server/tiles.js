@@ -4,9 +4,8 @@ var cache = {};
 module.exports = function (req, res) {
 
   var dispatch = function(data) {
-    res.status(200)
-      .type('png')
-      .send(data);
+    res.type('png');
+    res.status(200).send(data);
   };
 
   var hex = req.params.hex;
