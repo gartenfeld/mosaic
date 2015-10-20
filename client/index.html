@@ -4,21 +4,22 @@
   <meta charset="UTF-8">
   <title>Mosaic</title>
   <link rel="stylesheet" type="text/css" href="css/mosaic.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 </head>
 <body>
-
-  <div id="drop-zone">
+  <form id="drop-zone" class="dropzone">
     <i class="fa fa-cloud-upload fa-5x"></i>
     <div class="instructions">
-      <div class="prompt">Drop image file here. </div>
-      <div class="button">Select File</div>
+      <div class="prompt">Drop image file here.</div>
+      <div class="select">       
+        <label class="button" for="file">Select File</label>                   
+        <input type="file" name="file" id="file">
+      </div>
       <div class="button">See Demo</div>
     </div>
-  </div>
-  
-  <script type="text/javascript" src="js/dropzone.js"></script>
+  </form>
+  <script type="text/javascript" src="lib/dropzone.js"></script>
   <script type="text/javascript" src="js/mosaic.js"></script>
-  
 </body>
 </html>
+

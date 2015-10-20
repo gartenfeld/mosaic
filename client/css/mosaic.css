@@ -44,8 +44,11 @@ body {
   margin-bottom: 20px;
 }
 
-.button {
+.button, .select {
   display: inline-block;
+}
+
+.button {
   width: 110px;
   margin: 5px;
   padding: 10px 5px 10px 5px;
@@ -55,6 +58,10 @@ body {
   box-shadow: 2px 2px 0px #00d0d0;
   text-shadow: 1px 1px 0 #00c0c0;
   cursor: pointer;
+}
+
+input[type=file] {
+  display: none;
 }
 
 .button:hover {
