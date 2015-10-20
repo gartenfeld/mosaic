@@ -1,47 +1,27 @@
-function selected(event) {
-  var ref = event.target.files[0];
-  draw(ref);
-}
-
-function dragging(event) {
-  event.stopPropagation();
-  event.preventDefault();
-  event.dataTransfer.dropEffect = 'copy';
-}
-
-function dropped(event) {
-  event.stopPropagation();
-  event.preventDefault();
-  var ref = event.dataTransfer.files[0];
-  draw(ref);
-}
-
-document.getElementById('file')
-  .addEventListener('change', selected);
-
-document.getElementById('zone')
-  .addEventListener('dragover', dragging);
-
-document.getElementById('zone')
-  .addEventListener('drop', dropped);
-
-function draw(source) {
+var rasterize = function(source) {
   var image = new Image();
   var reader = new FileReader();
-  var rendered = document.createElement('canvas').getContext('2d');
+  var canvas = document.createElement('canvas'),
+      context = canvas.getContext('2d');
   reader.onload = function(event) {
     image.src = event.target.result;
-    rendered.drawImage(image, 0, 0);
-    analyze(rendered);
+    context.drawImage(image, 0, 0);
+    analyze(context);
   };
   reader.readAsDataURL(source);
-}
+};
 
-function analyze(image) {
+var analyze = function(image) {
   // determine image size
 
   // sample colors
-  // 
-  // var pixel = image.getImageData(0, 0, 1, 1).data;
-  // console.log(pixel);
-}
+  var pixel = image.getImageData(0, 0, 1, 1).data;
+  console.log(pixel);
+};
+
+var retrieve = function(event) {
+  rasterize(event.target.files[0]);
+};
+
+δ('file').on('change', retrieve);
+δ('zone').on('drop', rasterize);
