@@ -7,18 +7,15 @@
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 </head>
 <body>
-  <form id="drop-zone" class="dropzone">
+  <div id="zone">
     <i class="fa fa-cloud-upload fa-5x"></i>
-    <div class="instructions">
-      <div class="prompt">Drop image file here.</div>
-      <div class="select">       
-        <label class="button" for="file">Select File</label>                   
-        <input type="file" name="file" id="file">
-      </div>
+    <div class="prompt">Drop image file here.</div>
+    <div class="controls">       
+      <label class="button" for="file">Select File</label>                   
+      <input type="file" name="file" id="file" />
       <div class="button">See Demo</div>
-    </div>
-  </form>
-  <script type="text/javascript" src="lib/dropzone.js"></script>
+    </div>  
+  </div>
   <script type="text/javascript" src="js/mosaic.js"></script>
 </body>
 </html>
