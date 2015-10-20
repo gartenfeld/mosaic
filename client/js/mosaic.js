@@ -41,4 +41,7 @@ function analyze(image) {
   // determine image size
 
   // sample colors
+  // 
+  // var pixel = image.getImageData(0, 0, 1, 1).data;
+  // console.log(pixel);
 }
