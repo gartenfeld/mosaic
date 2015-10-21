@@ -11,6 +11,18 @@ Element.prototype.on = function(event, callback) {
   return this;
 };
 
+Element.prototype.hide = function() {
+  this.el.style.opacity = '0';
+  this.el.style.display = 'none';
+  return this;
+};
+
+Element.prototype.show = function() {
+  this.el.style.opacity = '1';
+  this.el.style.display = 'flex';
+  return this;
+};
+
 Element.prototype.droppable = function(callback) {
   var dragging = function(event) {
     event.stopPropagation();
@@ -26,6 +38,9 @@ Element.prototype.droppable = function(callback) {
   this.el.addEventListener('drop', dropped);
 };
 
+var stored = {};
+
 window.δ = function(id) {
-  return new Element(id);
+  stored[id] = stored[id] || new Element(id);
+  return stored[id];
 };

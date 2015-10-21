@@ -1,29 +1,47 @@
 var IMAGE_WIDTH = 0,
     IMAGE_HEIGHT = 0;
 
-var rasterizeImageData = function(source) {
-  var image = new Image();
+var readImageBlob = function(file) {
   var reader = new FileReader();
+  reader.onload = function(event) {
+    setImageSource(event.target.result); 
+  };
+  reader.readAsDataURL(file);
+};
+
+var setImageSource = function(source) {
+  var image = new Image();
+  image.onload = function() {
+    rasterizeImageData(image);
+  };
+  image.src = source;
+  δ('image').show().el.src = source;
+  δ('zone').hide();
+};
+
+var rasterizeImageData = function(image) {
   var canvas = document.createElement('canvas'),
       context = canvas.getContext('2d');
-  reader.onload = function(event) {
-    image.src = event.target.result;
-    // canvas must be resized to contain full image
-    canvas.width = IMAGE_WIDTH = image.width;
-    canvas.height = IMAGE_HEIGHT = image.height; 
-    context.drawImage(image, 0, 0);
-    generateMosaic(context);
-  };
-  reader.readAsDataURL(source);
+  canvas.width = IMAGE_WIDTH = image.width;
+  canvas.height = IMAGE_HEIGHT = image.height; 
+  context.drawImage(image, 0, 0);
+  generateMosaic(context);
 };
 
 var generateMosaic = function(image) {
-  analyzeImageGrid(context);
+  sliceImageGrid(image);
+  // generate place holders
+  // load tiles using promises
+  // render tiles row by row
 };
 
-var analyzeImageGrid = function(image) {
-  // determine image size
+// var TILE_WIDTH = 16;
+// var TILE_HEIGHT = 16;
+// var COLOR_DEPTH = 16;
+// var SAMPLE_RATE = 8;
 
+var sliceImageGrid = function(image) {
+  // determine image size
 };
 
 var sampleAverageColor = function(image, left, top) {
@@ -34,13 +52,14 @@ var sampleAverageColor = function(image, left, top) {
 
 };
 
-var reduceColor = function(hex) {
-
+var reduceColor = function(r, g, b) {
+  var hex;
+  return hex;
 };
 
 var extractFileReference = function(event) {
-  rasterizeImageData(event.target.files[0]);
+  readImageBlob(event.target.files[0]);
 };
 
 δ('file').on('change', extractFileReference);
-δ('zone').on('drop', rasterizeImageData);
+δ('zone').on('drop', readImageBlob);
