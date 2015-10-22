@@ -23,20 +23,21 @@ body {
   text-align:center;
 }
 
-#image {
+#original {
   opacity: 0;
   margin: 0 auto;
   border-radius: 5px;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 #zone {
   opacity: 1;
   width: 70%;
-  max-width: 600px;
   height: 60%;  
-  border: 3px dashed #00e0e0;
+  max-width: 600px;
+  max-height: 600px;
   border-radius: 12px;
+  border: 3px dashed #00e0e0;
   transition: all 0.3s ease-in-out;
 }
 
@@ -47,10 +48,11 @@ body {
 .fa:before {
   color: #00e0e0;
   font-size: 128px;
+  text-shadow: 1px 1px 0 #00c0c0;
 }
 
 .prompt {
-  color: #00d0d0;
+  color: #00cece;
   font-size: 16px;
   margin-bottom: 20px;
 }

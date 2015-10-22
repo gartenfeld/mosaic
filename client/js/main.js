@@ -15,7 +15,7 @@ var setImageSource = function(source) {
     rasterizeImageData(image);
   };
   image.src = source;
-  δ('image').show().el.src = source;
+  δ('original').show().el.src = source;
   δ('zone').hide();
 };
 
