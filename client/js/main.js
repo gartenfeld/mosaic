@@ -29,10 +29,20 @@ var rasterizeImageData = function(image) {
 };
 
 var generateMosaic = function(image) {
-  sliceImageGrid(image);
+  // sliceImageGrid(image);
   // generate place holders
   // load tiles using promises
   // render tiles row by row
+  // 
+  
+  var start = new Date();
+  var x = 0, y = 0;
+  
+  // it's much faster to generate the array
+  var pixel = image.getImageData(x, y, 100, 100).data;
+  
+  var diff = new Date() - start;
+  console.log(pixel, diff);
 };
 
 // var TILE_WIDTH = 16;
