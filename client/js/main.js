@@ -1,6 +1,12 @@
 var IMAGE_WIDTH = 0,
     IMAGE_HEIGHT = 0;
 
+/**
+ * function() description
+ *
+ * @param {Type} variable
+ * @return {Type} variable
+ */
 var readImageBlob = function(file) {
   var reader = new FileReader();
   reader.onload = function(event) {
@@ -9,6 +15,12 @@ var readImageBlob = function(file) {
   reader.readAsDataURL(file);
 };
 
+/**
+ * function() description
+ *
+ * @param {Type} variable
+ * @return {Type} variable
+ */
 var setImageSource = function(source) {
   var image = new Image();
   image.onload = function() {
@@ -19,6 +31,12 @@ var setImageSource = function(source) {
   δ('zone').hide();
 };
 
+/**
+ * function() description
+ *
+ * @param {Type} variable
+ * @return {Type} variable
+ */
 var rasterizeImageData = function(image) {
   var canvas = document.createElement('canvas'),
       context = canvas.getContext('2d');
@@ -28,46 +46,91 @@ var rasterizeImageData = function(image) {
   generateMosaic(context);
 };
 
+/**
+ * function() description
+ *
+ * @param {Type} variable
+ * @return {Type} variable
+ */
 var generateMosaic = function(image) {
   normalizeImageSize();
   sliceImageRows(image);
-  // generate place holders
-  // load tiles using promises
-  // render tiles row by row
 };
 
+/**
+ * function() description
+ *
+ * @param {Type} variable
+ * @return {Type} variable
+ */
 var normalizeImageSize = function() {
-  // trim image size to multiples of tile size
+  IMAGE_WIDTH -= (IMAGE_WIDTH % TILE_WIDTH);
+  IMAGE_HEIGHT -= (IMAGE_HEIGHT % TILE_HEIGHT);
 };
 
-// TILE_WIDTH = 16;
-// TILE_HEIGHT = 16;
-// COLOR_DEPTH = 16;
-// SAMPLE_RATE = 8;
+/**
+ * function() description
+ *
+ * @param {Type} variable
+ * @return {Type} variable
+ */
+var receiveWorkerData = function(e) {
 
+  // e.data.results; 
+  // e.data.index;
+  // 
+  // replace inner html of the corresponding placeholder
+  // 
+  // call top-to-bottom checking funciton
+  // show next available rows
+
+};
+
+/**
+ * function() description
+ *
+ * @param {Type} variable
+ * @return {Type} variable
+ */
+var delegateTask = function(row, index) {
+  var worker = new Worker("js/worker.js");
+  worker.onmessage = receiveWorkerData;
+  var workload = { row: row, index: index };
+  worker.postMessage(workload);
+};
+
+/**
+ * function() description
+ *
+ * @param {Type} variable
+ * @return {Type} variable
+ */
+var addRowPlaceholder = function(index) {
+
+};
+
+/**
+ * function() description
+ *
+ * @param {Type} variable
+ * @return {Type} variable
+ */
 var sliceImageRows = function(image) {
-  
-  var row;
+  var row, index;
   for (var y = 0; y < IMAGE_HEIGHT; y += TILE_HEIGHT) {
+    index = y / TILE_HEIGHT;
+    addRowPlaceholder(index);
     row = image.getImageData(0, y, IMAGE_WIDTH, TILE_HEIGHT).data;
-
-    // spawn new worker
-    // send row to worker (by transfer)
-
+    delegateTask(row, index);
   }
-
-  
-  
-  // // it's much faster to generate the array
-  // var start = new Date();
-  // var diff = new Date() - start;
-  // console.log(diff);
-
-
 };
 
-
-
+/**
+ * function() description
+ *
+ * @param {Type} variable
+ * @return {Type} variable
+ */
 var extractFileReference = function(event) {
   readImageBlob(event.target.files[0]);
 };
