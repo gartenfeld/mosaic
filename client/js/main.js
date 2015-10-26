@@ -29,43 +29,44 @@ var rasterizeImageData = function(image) {
 };
 
 var generateMosaic = function(image) {
-  // sliceImageGrid(image);
+  normalizeImageSize();
+  sliceImageRows(image);
   // generate place holders
   // load tiles using promises
   // render tiles row by row
-  // 
+};
+
+var normalizeImageSize = function() {
+  // trim image size to multiples of tile size
+};
+
+// TILE_WIDTH = 16;
+// TILE_HEIGHT = 16;
+// COLOR_DEPTH = 16;
+// SAMPLE_RATE = 8;
+
+var sliceImageRows = function(image) {
   
-  var start = new Date();
-  var x = 0, y = 0;
+  var row;
+  for (var y = 0; y < IMAGE_HEIGHT; y += TILE_HEIGHT) {
+    row = image.getImageData(0, y, IMAGE_WIDTH, TILE_HEIGHT).data;
+
+    // spawn new worker
+    // send row to worker (by transfer)
+
+  }
+
   
-  // it's much faster to generate the array
-  var pixel = image.getImageData(x, y, 100, 100).data;
   
-  var diff = new Date() - start;
-  console.log(pixel, diff);
-};
+  // // it's much faster to generate the array
+  // var start = new Date();
+  // var diff = new Date() - start;
+  // console.log(diff);
 
-// var TILE_WIDTH = 16;
-// var TILE_HEIGHT = 16;
-// var COLOR_DEPTH = 16;
-// var SAMPLE_RATE = 8;
-
-var sliceImageGrid = function(image) {
-  // determine image size
-};
-
-var sampleAverageColor = function(image, left, top) {
-
-  var x = 0, y = 0;
-  var pixel = image.getImageData(x, y, 1, 1).data;
-  console.log(pixel);
 
 };
 
-var reduceColor = function(r, g, b) {
-  var hex;
-  return hex;
-};
+
 
 var extractFileReference = function(event) {
   readImageBlob(event.target.files[0]);
