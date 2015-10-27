@@ -15,29 +15,36 @@ var reduceColor = function(r, g, b) {
   return hexify(r) + hexify(g) + hexify(b);
 };
 
-// var encodeTile = function(blob) {
-//   var buffer = new Uint8Array(blob),
-//       i = buffer.length,
-//       binary = new Array(i);
-//   while (i--) {
-//     binary[i] = String.fromCharCode(buffer[i]);
-//   } 
-//   return btoa(binary.join(''));
-// };
+var encodeTile = function(input) {
+  var buffer = new Uint8Array(input),
+      i = buffer.length,
+      binary = new Array(i);
+  while (i--) {
+    binary[i] = String.fromCharCode(buffer[i]);
+  } 
+  return btoa(binary.join(''));
+};
+
+var FileReader = FileReader || null;
+var prefix = FileReader ? '' : 'data:image/jpeg;base64,';
 
 var downloadTile = function(hex, callback) {
   var xhr = new XMLHttpRequest();
-  xhr.responseType = 'blob';
-  var reader = new FileReader();
+  xhr.open('GET', '../color/' + hex, true);
+  xhr.responseType = FileReader ? 'blob' : 'arraybuffer';
   xhr.onload = function() {
     if (this.status === 200) {
-      reader.onloadend = function() {             
-        callback(reader.result);
-      };
-      reader.readAsDataURL(this.response); 
+      if (FileReader) {
+        var reader = new FileReader();
+        reader.onloadend = function() {             
+          callback(reader.result);
+        };
+        reader.readAsDataURL(this.response); 
+      } else {
+        callback(encodeTile(this.response));
+      }
     }
   };
-  xhr.open('GET', '../color/' + hex, true);
   xhr.send();
 };
 
@@ -91,7 +98,7 @@ var reduceRowData = function(flat, callback) {
 
   var buildRowHTML = function() {
     tiles.forEach(function(base64) {
-      html += '<img src="' + base64 + '" />';
+      html += '<img src="' + prefix + base64 + '" />';
     });
     callback(html);
   };
@@ -102,6 +109,3 @@ var reduceRowData = function(flat, callback) {
   }
 
 };
-
-
-
