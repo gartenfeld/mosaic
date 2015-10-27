@@ -83,6 +83,7 @@ var addRowPlaceholder = function(index) {
   var attributes = { 'id': '' + index, 'class': 'row' };
   var node = δ('projection').append('div', attributes);
   node.style('height', TILE_HEIGHT + 'px');
+  node.style('width', IMAGE_WIDTH + 'px');
   rows[index] = { ready: false, node: node};
 };
 

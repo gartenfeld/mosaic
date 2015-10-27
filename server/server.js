@@ -14,6 +14,6 @@ app.get('/', function(req, res) {
 app.get('/color/:hex', store.handler);
 
 /* use 16, i.e. 2^(12/3), to generate and cache 12-bit (4096) colors */
-store.prebake(16);
+// store.prebake(16);
 
 app.listen(app.get('port'));
