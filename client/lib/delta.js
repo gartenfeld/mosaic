@@ -1,5 +1,5 @@
-var Element = function(id) {
-  this.el = document.getElementById(id);
+var Element = function(el) {
+  this.el = el;
 };
 
 Element.prototype.on = function(event, callback) {
@@ -23,13 +23,18 @@ Element.prototype.show = function() {
   return this;
 };
 
+Element.prototype.style = function(key, value) {
+  this.el.style[key] = value;
+  return this;
+};
+
 Element.prototype.append = function(tag, attributes) {
   var child = document.createElement(tag);
   for (var key in attributes) {
     child.setAttribute(key, attributes[key]);
   }
   this.el.appendChild(child);
-  return this;
+  return new Element(child);
 };
 
 Element.prototype.droppable = function(callback) {
@@ -50,6 +55,6 @@ Element.prototype.droppable = function(callback) {
 var stored = {};
 
 window.δ = function(id) {
-  stored[id] = stored[id] || new Element(id);
+  stored[id] = stored[id] || new Element(document.getElementById(id));
   return stored[id];
 };

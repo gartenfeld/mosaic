@@ -81,8 +81,9 @@ var rows = {};
  */
 var addRowPlaceholder = function(index) {
   var attributes = { 'id': '' + index, 'class': 'row' };
-  δ('projection').append('div', attributes);
-  rows[index] = { ready: false, node: δ(index) };
+  var node = δ('projection').append('div', attributes);
+  node.style('height', TILE_HEIGHT + 'px');
+  rows[index] = { ready: false, node: node};
 };
 
 /**

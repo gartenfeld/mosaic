@@ -7,19 +7,25 @@
   <link rel="stylesheet" type="text/css" href="lib/fa/css/font-awesome.min.css">
 </head>
 <body>
-  <div id="stage">
-    <div id="projection"></div>
-    <img id="original" />
-    <div id="zone">
-      <i class="fa fa-cloud-upload fa-5x"></i>
-      <div class="prompt">Drop image file here.</div>
-      <div class="controls">       
-        <label class="button" for="file">Select File</label>                   
-        <input type="file" name="file" id="file" accept="image/*" />
-        <div class="button" onclick="setImageSource('img/sample.jpg')">See Demo</div>
-      </div>  
+
+  <div class="stage">
+    <div id="projection">
     </div>
   </div>
+  <div class="stage">
+    <img id="original" />
+  </div>
+
+  <div id="zone">
+    <i class="fa fa-cloud-upload fa-5x"></i>
+    <div class="prompt">Drop image file here.</div>
+    <div class="controls">       
+      <label class="button" for="file">Select File</label>                   
+      <input type="file" name="file" id="file" accept="image/*" />
+      <div class="button" onclick="setImageSource('img/sample.jpg')">See Demo</div>
+    </div>  
+  </div>
+  
 
   <script type="text/javascript" src="lib/delta.js"></script>
   <script type="text/javascript" src="js/settings.js"></script>
