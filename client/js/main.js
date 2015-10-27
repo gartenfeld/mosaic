@@ -43,70 +43,16 @@ var rasterizeImageData = function(image) {
   canvas.width = IMAGE_WIDTH = image.width;
   canvas.height = IMAGE_HEIGHT = image.height; 
   context.drawImage(image, 0, 0);
-  generateMosaic(context);
-};
-
-/**
- * function() description
- *
- * @param {Type} variable
- * @return {Type} variable
- */
-var generateMosaic = function(image) {
   normalizeImageSize();
-  sliceImageRows(image);
+  sliceImageRows(context);
 };
 
 /**
  * function() description
- *
- * @param {Type} variable
- * @return {Type} variable
  */
 var normalizeImageSize = function() {
   IMAGE_WIDTH -= (IMAGE_WIDTH % TILE_WIDTH);
   IMAGE_HEIGHT -= (IMAGE_HEIGHT % TILE_HEIGHT);
-};
-
-/**
- * function() description
- *
- * @param {Type} variable
- * @return {Type} variable
- */
-var receiveWorkerData = function(e) {
-
-  // e.data.results; 
-  // e.data.index;
-  // 
-  // replace inner html of the corresponding placeholder
-  // 
-  // call top-to-bottom checking funciton
-  // show next available rows
-
-};
-
-/**
- * function() description
- *
- * @param {Type} variable
- * @return {Type} variable
- */
-var delegateTask = function(row, index) {
-  var worker = new Worker("js/worker.js");
-  worker.onmessage = receiveWorkerData;
-  var workload = { row: row, index: index };
-  worker.postMessage(workload);
-};
-
-/**
- * function() description
- *
- * @param {Type} variable
- * @return {Type} variable
- */
-var addRowPlaceholder = function(index) {
-
 };
 
 /**
@@ -124,6 +70,59 @@ var sliceImageRows = function(image) {
     delegateTask(row, index);
   }
 };
+
+var rows = {};
+
+/**
+ * function() description
+ *
+ * @param {Type} variable
+ * @return {Type} variable
+ */
+var addRowPlaceholder = function(index) {
+  var attributes = { 'id': '' + index, 'class': 'row' };
+  δ('projection').append('div', attributes);
+  rows[index] = { ready: false, node: δ(index) };
+};
+
+/**
+ * function() description
+ *
+ * @param {Type} variable
+ * @return {Type} variable
+ */
+var delegateTask = function(row, index) {
+  var worker = new Worker("js/worker.js"),
+      workload = { row: row, index: index };
+  worker.onmessage = ingestWorkerPayload;
+  worker.postMessage(workload);
+};
+
+/**
+ * function() description
+ *
+ * @param {Type} variable
+ * @return {Type} variable
+ */
+var ingestWorkerPayload = function(e) {
+  var index = e.data.index;
+  δ(index).el.innerHTML = e.data.results;
+  rows[index].ready = true;
+  showContiguousRows();
+};
+
+/**
+ * function() description
+ */
+var showContiguousRows = (function() {
+  var init = true, start = 0;
+  return function() {
+    init = init && δ('original').hide() && false;
+    while (rows[start] && rows[start].ready) {
+      rows[start++].node.show();
+    }
+  };
+})();
 
 /**
  * function() description

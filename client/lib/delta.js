@@ -23,6 +23,15 @@ Element.prototype.show = function() {
   return this;
 };
 
+Element.prototype.append = function(tag, attributes) {
+  var child = document.createElement(tag);
+  for (var key in attributes) {
+    child.setAttribute(key, attributes[key]);
+  }
+  this.el.appendChild(child);
+  return this;
+};
+
 Element.prototype.droppable = function(callback) {
   var dragging = function(event) {
     event.stopPropagation();
