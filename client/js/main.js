@@ -55,19 +55,89 @@ var normalizeImageSize = function() {
   IMAGE_HEIGHT -= (IMAGE_HEIGHT % TILE_HEIGHT);
 };
 
+var hexify = function(num) {
+  return ('00' + num.toString(16)).substr(-2);
+};
+
+var reduceColor = function(r, g, b) {
+  r -= (r % COLOR_DEPTH);
+  g -= (g % COLOR_DEPTH);
+  b -= (b % COLOR_DEPTH);
+  return hexify(r) + hexify(g) + hexify(b);
+};
+
+var reduceRowData = function(flat, index, callback) {
+
+  var sampleAverageColor = function(offset) {
+    var cursor, x, y, 
+        rSum = 0, gSum = 0, bSum = 0, r, g, b;
+    for (var s = 0; s < SAMPLE_RATE; s++) {
+      x = Math.floor(Math.random() * TILE_WIDTH);
+      y = Math.floor(Math.random() * TILE_HEIGHT);
+      cursor = (y * IMAGE_WIDTH + offset + x) * 4;
+      rSum += flat[cursor];
+      gSum += flat[cursor + 1];
+      bSum += flat[cursor + 2];
+    }
+    r = Math.floor(rSum / SAMPLE_RATE);
+    g = Math.floor(gSum / SAMPLE_RATE);
+    b = Math.floor(bSum / SAMPLE_RATE);
+    return reduceColor(r, g, b);
+  };
+
+  var tiles = [],
+      stack = 0;
+
+  var buildEncodedTileImage = function(offset) {
+    retrieveTile(sampleAverageColor(offset), function(base64) {
+      tiles[offset / TILE_WIDTH] = base64;
+      if (--stack === 0) {
+        buildRowHTML();
+      }
+    });
+  };
+
+  var html = '';
+
+  var buildSimulatedRowHTML = function() {
+    tiles.forEach(function(hex) {
+      html += '<div class="frame"><div class="circle" style="background-color:' + hex + ';"></div></div>';
+    });
+    callback(html, index);
+  };
+
+  /* SIMULATION */
+  var simulateTiles = function() {
+    for (var i = 0; i < IMAGE_WIDTH; i += TILE_WIDTH) {
+      tiles[i / TILE_WIDTH] = '#' + sampleAverageColor(i);
+    }
+    buildSimulatedRowHTML();
+  };
+
+  simulateTiles();
+  
+};
+
 /**
  * function() description
  *
  * @param {Type} variable
  * @return {Type} variable
  */
+
+var postHTML = function(html, index) {
+  δ(index).el.innerHTML = html;
+  rows[index].ready = true;
+  showRowsWhenComplete();
+};
+
 var sliceImageRows = function(image) {
   var row, index;
   for (var y = 0; y < IMAGE_HEIGHT; y += TILE_HEIGHT) {
     index = y / TILE_HEIGHT;
     addRowPlaceholder(index);
     row = image.getImageData(0, y, IMAGE_WIDTH, TILE_HEIGHT).data;
-    delegateTask(row, index);
+    reduceRowData(row, index, postHTML);
   }
 };
 
