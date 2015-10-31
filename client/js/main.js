@@ -84,7 +84,7 @@ var addRowPlaceholder = function(index) {
   var node = δ('projection').append('div', attributes);
   node.style('height', TILE_HEIGHT + 'px');
   node.style('width', IMAGE_WIDTH + 'px');
-  rows[index] = { ready: false, node: node};
+  rows[index] = { ready: false, node: node };
 };
 
 /**
@@ -110,8 +110,21 @@ var ingestWorkerPayload = function(e) {
   var index = e.data.index;
   δ(index).el.innerHTML = e.data.results;
   rows[index].ready = true;
-  showContiguousRows();
+  // showContiguousRows();
+  showRowsWhenComplete();
 };
+
+var showRowsWhenComplete = (function() {
+  var completed = 0;
+  return function() {
+    if (++completed === Object.keys(rows).length) {
+      for (var i = 0; i < Object.keys(rows).length; i++) {
+        rows[i].node.show();
+      }
+      δ('original').hide();
+    }
+  };
+})();
 
 /**
  * function() description

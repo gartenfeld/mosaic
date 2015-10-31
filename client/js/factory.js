@@ -85,7 +85,7 @@ var reduceRowData = function(flat, callback) {
   var tiles = [],
       stack = 0;
 
-  var buildTileElement = function(offset) {
+  var buildEncodedTileImage = function(offset) {
     retrieveTile(sampleAverageColor(offset), function(base64) {
       tiles[offset / TILE_WIDTH] = base64;
       if (--stack === 0) {
@@ -103,9 +103,28 @@ var reduceRowData = function(flat, callback) {
     callback(html);
   };
 
-  for (var i = 0; i < IMAGE_WIDTH; i += TILE_WIDTH) {
-    stack++;
-    buildTileElement(i);
-  }
+  var buildSimulatedRowHTML = function() {
+    tiles.forEach(function(hex) {
+      html += '<div class="frame"><div class="circle" style="background-color:' + hex + ';"></div></div>';
+    });
+    callback(html);
+  };
 
+  var generateTiles = function() {
+    for (var i = 0; i < IMAGE_WIDTH; i += TILE_WIDTH) {
+      stack++;
+      buildEncodedTileImage(i);
+    }
+  };
+  // generateTiles();
+
+  /* SIMULATION */
+  var simulateTiles = function() {
+    for (var i = 0; i < IMAGE_WIDTH; i += TILE_WIDTH) {
+      tiles[i / TILE_WIDTH] = '#' + sampleAverageColor(i);
+    }
+    buildSimulatedRowHTML();
+  };
+  simulateTiles();
+  
 };

@@ -24,7 +24,7 @@ body, #zone, .stage {
 
 #original {
   opacity: 0;
-  z-index: 10;
+  z-index: 30;
   position: relative;
   border-radius: 5px;
   transition: all 0.3s ease-in-out;
@@ -99,4 +99,17 @@ input[type=file] {
 
 .row img {
   margin: 0;
+}
+
+.frame {
+  float: left;
+  width: 16px;
+  height: 16px;
+}
+
+.circle {
+  margin: 1px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
 }
